@@ -6,33 +6,6 @@
                     <div class="card-body">
                         <img :src="$store.state.user.photo" alt="" style="width: 100%;">
                     </div>
-                    <div class="card-name" style="text-align: center;">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#update-user-photo">
-                            修改头像
-                        </button>
-                    </div>
-                    <div class="modal fade" id="update-user-photo" tabindex="-1" aria-labelledby="update-user-photo"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="update-user-photo">修改头像</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="update-user-photo" class="form-label">输入新头像图片地址</label>
-                                        <input v-model="photo" type="text" class="form-control" id="update-user-photo">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-primary" @click="update_photo(photo)">保存</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-9">
@@ -167,30 +140,6 @@ export default {
         const store = useStore();
         let bots = ref([]);
 
-        const photo = "";
-
-        const update_photo = (photo) => {
-            $.ajax({
-                url: "https://app4960.acapp.acwing.com.cn/api/user/bot/update/",
-                type: "post",
-                data: {
-                    photo: photo,
-                },
-                headers: {
-                    Authorization: "Bearer " + store.state.user.token,
-                },
-                success(resp) {
-                    if (resp.error_message === "success") {
-                        console.log("success");
-                        refresh_bots();
-                    } else {
-                        console.log("failed");
-                    }
-                }
-            })
-        }
-
-
 
         const botadd = reactive({
             title: "",
@@ -230,9 +179,9 @@ export default {
                 success(resp) {
                     if (resp.error_message === "success") {
                         botadd.title = "",
-                            botadd.description = "",
-                            botadd.content = "",
-                            Modal.getInstance("#add-bot-btn").hide();
+                        botadd.description = "",
+                        botadd.content = "",
+                        Modal.getInstance("#add-bot-btn").hide();
                         refresh_bots();
                     } else {
                         botadd.error_message = resp.error_message;
@@ -287,8 +236,6 @@ export default {
         return {
             bots,
             botadd,
-            photo,
-            update_photo,
             add_bot,
             update_bot,
             remove_bot,
